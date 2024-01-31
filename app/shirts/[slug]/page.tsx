@@ -1,6 +1,6 @@
 import { singlePost } from '@/lib/markdown'
 
-async function getPosts(slug) {
+async function getPosts(slug: string) {
   const postData = singlePost(slug)
   return postData
 }

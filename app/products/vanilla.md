@@ -1,6 +1,7 @@
 ---
 title: Vanilla ice cream
 description: Its definitely worth learning about react
+date: 12-22-2023
 ---
 ## The value of learning React
 

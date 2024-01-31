@@ -6,8 +6,16 @@ import html from 'remark-html'
 
 const postsDirectory = path.join(process.cwd(), 'app/products')
 
-export function getSortedPostsData() {
-  // Get file names under /posts
+interface PostData {
+  id: string
+  date: string
+  title: string
+  contentHtml: string
+  notFound: boolean
+}
+
+export function getSortedPostsData(): PostData[] {
+  // Get file names under post directory
   const fileNames = fs.readdirSync(postsDirectory)
   const allPostsData = fileNames.map((fileName) => {
     // Remove ".md" from file name to get id
@@ -23,7 +31,7 @@ export function getSortedPostsData() {
     // Combine the data with the id
     return {
       id,
-      ...matterResult.data,
+      ...(matterResult.data as Omit<PostData, 'id'>),
     }
   })
   // Sort posts by date
@@ -36,7 +44,7 @@ export function getSortedPostsData() {
   })
 }
 
-export async function singlePost(slug) {
+export async function singlePost(slug: string): Promise<PostData | { notFound: true }> {
   try {
     const fullPath = path.join(postsDirectory, `${slug}.md`)
     const fileContents = fs.readFileSync(fullPath, 'utf8')
@@ -45,17 +53,21 @@ export async function singlePost(slug) {
     const processedContent = await remark()
       .use(html)
       .process(matterResult.content)
-
     const contentHtml = processedContent.toString()
 
-    return {
+    // Create a new object for the post data, excluding contentHtml if it exists in matterResult.data
+    const postData: Omit<PostData, 'contentHtml'> = {
       id: slug,
+      ...(matterResult.data as Omit<PostData, 'id' | 'contentHtml'>),
+    }
+
+    // Now add contentHtml explicitly
+    return {
+      ...postData,
       contentHtml,
-      ...matterResult.data,
     }
   } catch (error) {
-    // Handle the error (e.g., file not found)
-    console.error(error.message)
+    console.error((error instanceof Error) ? error.message : 'An error occurred')
     return { notFound: true }
   }
 }

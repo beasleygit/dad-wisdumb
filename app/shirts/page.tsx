@@ -1,7 +1,8 @@
 import { getSortedPostsData } from "@/lib/markdown"
 import { Container } from '../components/container'
-import { Header } from '../components/header'
+import Header from '../components/header'
 import Footer from '../components/footer'
+import Link from 'next/link'
 
 async function getPosts() {
   const allPostsData = getSortedPostsData()
@@ -16,10 +17,10 @@ export default async function Posts() {
     <Header />
     <main>
      <Container>
-        <h2>Fresh From The Oven...</h2>
+        <h2>Latest Tees</h2>
         <ul>
         { allPostsData.map((postData) => 
-          <li key={postData.id}>{postData.title}</li>
+          <Link href={`shirts/${postData.id}`}><li key={postData.id}>{postData.title}</li></Link>
         )}
         </ul>
       </Container>          

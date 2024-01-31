@@ -2,7 +2,7 @@ const Container = ({
   children, className
 }: {
   children: React.ReactNode,
-  className: string
+  className?: string
 }) => (
     <div className={`p-3 max-w-theme w-full mx-auto ${className}`}>
       {children}
