@@ -4,7 +4,7 @@ const Container = ({
   children: React.ReactNode,
   className?: string
 }) => (
-    <div className={`p-3 max-w-theme w-full mx-auto ${className}`}>
+    <div className={`p-3 max-w-theme w-full mx-auto ${className ? className : ''}`}>
       {children}
     </div>      
 )
@@ -13,9 +13,9 @@ const FullContainer = ({
   children, className
 }: {
   children: React.ReactNode,
-  className: string
+  className?: string
 }) => (
-    <div className={`max-w-theme w-full mx-auto ${className}`}>
+    <div className={`max-w-theme w-full mx-auto ${className ? className : ''}`}>
       {children}
     </div>      
 )

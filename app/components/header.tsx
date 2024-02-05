@@ -1,27 +1,27 @@
 import { Container } from './container'
 import { GlobalData } from '../globals'
-import { Oswald } from 'next/font/google'
+import { Lexend } from 'next/font/google'
 import LinkList from './links'
 import Link from 'next/link'
 
-const oswald = Oswald({
+const logoFont = Lexend({
   subsets: ['latin']
 })
  
-export default function Header() {
+export default function Header({text}: {text?: string}) {
   return (
     <header className="box-border flex flex-col">     
       <Container>
         <nav className="flex flex-row justify-between content-center mt-3">
-          <div className={oswald.className}><Link href="/">{GlobalData.name}</Link></div>
-          <div>
+          <div className={logoFont.className}><Link href="/" className="text-2xl font-bold">{GlobalData.name}</Link></div>
+          <div className="flex flex-row content-center justify-center flex-wrap">
             <LinkList />
           </div>
         </nav>  
       </Container>          
-      <Container className="h-96">
-        <div className="flex flex-wrap h-full bg-red-100 justify-center content-center rounded-xl">
-          <div>Test</div>
+      <Container>
+        <div className="flex flex-wrap h-full bg-red-100 justify-center content-center rounded-xl min-h-80">
+          <div>{text}</div>
         </div>  
       </Container>      
     </header>

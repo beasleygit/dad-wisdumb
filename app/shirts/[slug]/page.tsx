@@ -1,4 +1,9 @@
 import { singlePost } from '@/lib/markdown'
+import { Container } from '../../components/container'
+import Header from '../../components/header'
+import Footer from '../../components/footer'
+import Link from 'next/link'
+
 
 async function getPosts(slug: string) {
   const postData = singlePost(slug)
@@ -11,18 +16,29 @@ export default async function Post({ params }: { params: { slug: string } }) {
   if (postData.notFound) {
     // Render a not-found message or component
     return (
-      <main className="px-16 py-10 flex flex-col content-center justify-center flex-wrap">
-        <h2>Post Not Found</h2>
-        <p>The requested post could not be found.</p>
+      <>
+      <Header />
+      <main>
+        <Container>
+          <h2>Post Not Found!</h2>
+        </Container>          
       </main>
+      <Footer />      
+      </>
     )
   }
 
   // Normal rendering for when the post exists
   return (
-    <main className="px-16 py-10 flex flex-col content-center justify-center flex-wrap">
-      <h2>{postData.title}</h2>
-      <div dangerouslySetInnerHTML={{__html: postData.contentHtml}} />
-    </main>    
+      <>
+      <Header text={postData.title} />
+      <main>
+        <Container>
+          <h2>{postData.title}</h2>
+          <div dangerouslySetInnerHTML={{__html: postData.contentHtml}} />
+        </Container>          
+      </main>
+      <Footer />      
+      </>
   )
 }
